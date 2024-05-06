@@ -13,6 +13,8 @@ package com.ramirogvalverde.weatherconsole.requests;
 public class Current {
     
     
-        
+        public static void getCurrent(){
+            
+        }
     
 }
