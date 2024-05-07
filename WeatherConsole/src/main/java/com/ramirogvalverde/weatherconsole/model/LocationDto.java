@@ -4,12 +4,14 @@
  */
 package com.ramirogvalverde.weatherconsole.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
  * @author Ramiro
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationDto {
     
     @JsonProperty("Key")
@@ -18,7 +20,8 @@ public class LocationDto {
     private String localizedName;
     @JsonProperty("Country")
     private CountryDto country;
-
+    
+    
     public long getKey() {
         return key;
     }

@@ -12,11 +12,26 @@ import io.github.cdimascio.dotenv.Dotenv;
  */
 public class Utils {
     
-    public String getKey(){
+    public static String getKey(){
     
     Dotenv env = Dotenv.load();
     env.get("API_KEY");
     return env.get("API_KEY");
+    
+    }
+    
+    public static String getBaseUrl(){
+    
+    Dotenv env = Dotenv.load();
+    env.get("BASE_URL");
+    return env.get("BASE_URL");
+    
+    }
+    
+    public static String getLanguage(){
+    
+    Dotenv env = Dotenv.load();
+    return env.get("LANGUAGE");
     
     }
     
