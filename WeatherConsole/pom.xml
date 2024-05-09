@@ -47,7 +47,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>om.ramirogvalverde.weatherconsole.WeatherConsole</mainClass>
+                            <mainClass>com.ramirogvalverde.weatherconsole.WeatherConsole</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

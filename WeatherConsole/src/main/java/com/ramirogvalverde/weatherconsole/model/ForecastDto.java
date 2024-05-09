@@ -31,14 +31,5 @@ public class ForecastDto {
             "> Temperature: " + df.getTemperature().getMaximumTempDto().getValue() + " º" + df.getTemperature().getMaximumTempDto().getUnit()            
             );
         }
-        
-        /*for (DailyForecastDto df : dailyForecast) {
-            
-            System.out.println(
-            df.getDate() + "\n" +
-            "> Weather: " + df.getDay().getIconPhrase() + "\n" +
-            "> Temperature: " + df.getTemperature().getMaximumTempDto().getValue() + " º" + df.getTemperature().getMaximumTempDto().getUnit()            
-            );
-        }*/
     }
 }

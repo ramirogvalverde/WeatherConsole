@@ -16,10 +16,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static com.ramirogvalverde.weatherconsole.requests.Utils.getLanguage;
 import java.net.URLEncoder;
@@ -57,7 +53,8 @@ public class Location {
             List<LocationDto> filteredList = new LinkedList<>();
             
             for (LocationDto l : locationList) {
-                if(l.getCountry().getId().equals(countryCode)){
+                if(l.getCountry().getId().equalsIgnoreCase(countryCode)){
+
                     filteredList.add(l);
                 }
             }

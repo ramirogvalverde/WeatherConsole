@@ -7,10 +7,7 @@ package com.ramirogvalverde.weatherconsole;
 import com.ramirogvalverde.weatherconsole.model.ForecastDto;
 import com.ramirogvalverde.weatherconsole.model.LocationDto;
 import com.ramirogvalverde.weatherconsole.requests.Forecast;
-import com.ramirogvalverde.weatherconsole.requests.Location;
-import static com.ramirogvalverde.weatherconsole.requests.Utils.splitArgs;
-import static com.ramirogvalverde.weatherconsole.requests.Utils.getKey;
-import java.util.List;
+import static com.ramirogvalverde.weatherconsole.requests.Utils.*;
 
 /**
  *
@@ -20,144 +17,130 @@ public class WeatherConsole {
 
     public static void main(String[] args) {
 
+        // testing    
+        //String[] args2 = {"helpmeplease"};
+        //args = args2;
         LocationDto locationDto = null;
         ForecastDto fo = null;
-        
-        String format = "metric";
+        String localizedName;
+        String country;
+
+        Forecast forecast = new Forecast();
+        boolean format = true;
         int days = 1;
-        
-        String [] args2 = {"", "Cabezón,ES" , "" };
-        args = args2;
-        
-        
-        
-        if (args[1].contains(",")) {
-            
-           locationDto = setLocation(args[1]);
-           Forecast forecast = new Forecast();
-           
-           fo = forecast.getForecast(locationDto, Boolean.TRUE);
-           fo.showForecast(days);
-          
-           
-        } else {
-            //add log
-            System.err.println("Invalid format in the second parameter");
-        }
-/*
-        if (args[2].contains("=")) {
 
-            String[] args2 = splitArgs(args[2], "=");
+        if (args.length >= 2) {
+            //logic on the second parameter
+            if (args[1].contains(",") && !args[0].contains("help")) {
 
-            switch (args2[0]) {
-                case "--units":
-                    if (args2[1].equals("imperial")) {
-                        format = "imperial";
-                        break;
-                    } else if (args2[1].equals("metric")) {
-                        format = "metric";
-                        break;
-                    } else {
-                        //add log
-                        System.err.println("Invalid format in the third parameter. Default value metric.");
-                        format = "metric";
-                    }
-                    break;
-                case "--days":
-                try {
-                    days = Integer.parseInt(args2[1]);
+                locationDto = setLocation(args[1]);
 
-                    if (days >= 6 || days <= 0) {
-                        //add log
-                        System.err.println("Invalid option. Days should be between 1 and 5. Days set in 1");
-                        days = 1;
+                if (locationDto != null) {
+
+                    if (args.length >= 3) {
+
+                        //logic on the third parameter
+                        if (args[2].contains("=")) {
+
+                            String[] args3 = splitArgs(args[2], "=");
+
+                            switch (args3[0]) {
+                                case "--units":
+                                    format = setUnits(args[2]);
+
+                                    break;
+                                case "--days":
+                                    days = setDays(args[2]);
+
+                                    break;
+                                default:
+                                    //add log
+                                    System.err.println("Invalid option in the third parameter\n");
+                                    printHelp();
+                            }
+
+                        } else {
+                            //add log
+                            System.err.println("Invalid option in the third parameter\n");
+                            printHelp();
+                        }
                     }
 
-                } catch (NumberFormatException e) {
+                    if (args.length >= 4) {
+                        //logic on the fourth parameter
+                        if (args[3].contains("=")) {
 
-                    //add log
-                    System.err.println("Invalid option in the third parameter. Days set in 1");
-                    days = 1;
+                            String[] args4 = splitArgs(args[3], "=");
+
+                            switch (args4[0]) {
+                                case "--units":
+                                    format = setUnits(args[3]);
+
+                                    break;
+                                case "--days":
+                                    days = setDays(args[3]);
+
+                                    break;
+                                default:
+                                    //add log
+                                    System.err.println("Invalid option in the fourth parameter\n");
+                                    printHelp();
+                            }
+
+                        } else {
+                            //add log
+                            System.err.println("Invalid option in the fourth parameter\n");
+                            printHelp();
+                        }
+                    }
+
+                    if (args.length >= 5) {
+                        //add log
+                        System.err.println("Too many parameters. Check the request\n");
+                        printHelp();
+                    }
+                    // logic on the first parameter
+                    switch (args[0]) {
+                        case "current":
+                            localizedName = locationDto.getLocalizedName();
+                            country = locationDto.getCountry().getId();
+                            System.out.println(localizedName + ", " + country);
+                            fo = forecast.getForecast(locationDto, format);
+                            fo.showForecast(1);
+
+                            break;
+                        case "forecast":
+                            localizedName = locationDto.getLocalizedName();
+                            country = locationDto.getCountry().getId();
+                            System.out.println(localizedName + ", " + country);
+                            fo = forecast.getForecast(locationDto, format);
+                            fo.showForecast(days);
+
+                            break;
+
+                        default:
+                            //add log
+                            System.err.println("Invalid option in the first parameter\n");
+                            printHelp();
+
+                    }
                 }
-                break;
-
-                default:
-
-                    //add log
-                    System.err.println("Invalid option in the third parameter");
-
+            } else {
+                //add log
+                System.err.println("Invalid option in the second parameter\n");
+                printHelp();
             }
         } else {
-            //add log
-            System.err.println("Invalid option in the third parameter");
-        }
+            if (args[0].contains("help")) {
+                printHelp();
 
-        if (args[3].contains("=")) {
-            String[] args3 = splitArgs(args[3], "=");
-            try {
-                days = Integer.parseInt(args3[1]);
-
-                if (days >= 6 || days <= 0) {
-                    //add log
-                    System.err.println("Invalid option. Days should be between 1 and 5. Days set in 1");
-                    days = 1;
-                }
-
-            } catch (NumberFormatException e) {
-
+            } else {
                 //add log
-                System.err.println("Invalid option in the third parameter. Days set in 1");
-                days = 1;
+                System.err.println("Invalid option in the first parameter\n");
+                printHelp();
             }
 
         }
-
-        switch (args[0]) {
-            case "current":
-
-                //add log
-                break;
-
-            case "forecast":
-
-                //add log
-                break;
-
-            default:
-
-                //add log
-                System.err.println("Invalid option in the first parameter");
-
-        }
-     */
-        
     }
 
-    private static LocationDto setLocation(String args) {
-        
-        LocationDto locationDto=null;       
-        String city = args.split(",")[0];
-        String countryCode = args.split(",")[1];
-        
-        Location location= new Location();
-        
-        List<LocationDto> list = location.getlocation(city, countryCode);
-        
-        if (list.isEmpty()) {
-            System.out.println("The requested city was not found");
-        }else if(list==null){
-            System.out.println("Something went wrong with the request. Repeat it");
-        }else if(list.size()>1){
-            System.out.println("You have to be more pesize with the name. Pick one from the list");
-            for (LocationDto l : list) {
-                System.out.println(l.getLocalizedName()+ " "+ l.getCountry().getId());
-            }
-        }else{
-            locationDto=list.get(0);
-        }
-
-        return locationDto;
-    }
-
-    
 }
