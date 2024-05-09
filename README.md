@@ -13,4 +13,4 @@
 + Make sure you have installed the JRE 17 or later
 + Donwload the folder RunnableProject
 + Run a CMD in it
-+ And follow th instructions in README.txt
++ Follow the instructions in the README.txt file
